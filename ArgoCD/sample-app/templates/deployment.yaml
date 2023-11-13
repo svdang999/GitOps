@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aurora-invoice-service-test
+  name: aurora-invoice-test
   namespace: aurora  
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/instance: aurora-invoice-service-test
-      app.kubernetes.io/name: invoice-service
+      app.kubernetes.io/instance: aurora-invoice-test
+      app.kubernetes.io/name: aurora-invoice-test
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app.kubernetes.io/instance: aurora-invoice-service-test
-        app.kubernetes.io/name: invoice-service
+        app.kubernetes.io/instance: aurora-invoice-test
+        app.kubernetes.io/name: aurora-invoice-test
     spec:      
       containers:
-        - name: invoice-service
+        - name: aurora-invoice-test
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           ports:
             - name: http
