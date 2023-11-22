@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: acrsmartbillingtest.azurecr.io/aurora-invoice-service
+  repository: acrsmartbillingtest.azurecr.io/aurora-billing-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2023111002"
+  tag: "2023112205"
 
