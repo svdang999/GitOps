@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: aurora-invoice-test
+  name: aurora-billing-test
   namespace: aurora
   labels:
-    app.kubernetes.io/instance: aurora-invoice-test
-    app.kubernetes.io/name: aurora-invoice-test
+    app.kubernetes.io/instance: aurora-billing-test
+    app.kubernetes.io/name: aurora-billing-test
 spec:
   ports:
     - name: http
@@ -13,8 +13,8 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    app.kubernetes.io/instance: aurora-invoice-test
-    app.kubernetes.io/name: aurora-invoice-test  
+    app.kubernetes.io/instance: aurora-billing-test
+    app.kubernetes.io/name: aurora-billing-test  
     
   type: ClusterIP
   sessionAffinity: None
