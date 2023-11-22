@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aurora-invoice-test
+  name: aurora-billing-test
   namespace: aurora  
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/instance: aurora-invoice-test
-      app.kubernetes.io/name: aurora-invoice-test
+      app.kubernetes.io/instance: aurora-billing-test
+      app.kubernetes.io/name: aurora-billing-test
   template:
     metadata:
       labels:
-        app.kubernetes.io/instance: aurora-invoice-test
-        app.kubernetes.io/name: aurora-invoice-test
+        app.kubernetes.io/instance: aurora-billing-test
+        app.kubernetes.io/name: aurora-billing-test
     spec:      
       containers:
-        - name: aurora-invoice-test
+        - name: aurora-billing-test
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           ports:
             - name: http
@@ -29,6 +29,27 @@ spec:
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
           securityContext: {}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/appsettings.json
+              subPath: appsettings.json
+            - name: azurefileshare
+              mountPath: /mnt/azurefs
+            - name: timfileshare
+              mountPath: /mnt/storetimtest
+            - name: azurefileshare
+              mountPath: /data
+      volumes:
+        - name: config-volume
+          configMap:
+            name: aurora-billing-service
+        - name: azurefileshare
+          persistentVolumeClaim:
+            claimName: pvc-storeauroratest
+        - name: timfileshare
+          persistentVolumeClaim:
+            claimName: pvc-storetimtest
+      
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
@@ -42,5 +63,5 @@ spec:
     rollingUpdate:
       maxUnavailable: 25%
       maxSurge: 25%
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: 1
   progressDeadlineSeconds: 600
